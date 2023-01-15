@@ -1,0 +1,7 @@
+export enum ChannelKey {
+  VOICE = 'VOICE_SESSION',
+  EVENT = 'TEXT_EVENT',
+  SUGGESTION = 'TEXT_SUGGESTION',
+  MAIN = 'TEXT_MAIN',
+  MISC = 'TEXT_MISC',
+}
