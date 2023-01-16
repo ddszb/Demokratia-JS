@@ -16,7 +16,7 @@ export const createMovieEvent = async (
   guild: Guild,
 ): Promise<GuildScheduledEvent> => {
   let channel = undefined;
-  const channelDoc = await DB.channels.findOne({
+  const channelDoc = await DB.channel.findOne({
     guildId: guild.id,
     key: ChannelKey.VOICE,
   });

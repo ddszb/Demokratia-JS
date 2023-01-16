@@ -55,6 +55,10 @@ const MSG = {
   pollStartedCantSuggest:
     'A votação já começou, não é possível alterar ou adicionar indicação.',
   pollOptionsDescription: 'Operações relacionadas a enquete',
+  pollStartDescription: 'Inicia uma nova enquete',
+  pollCloseDescription: 'Encerra uma enquete aberta',
+  pollStatusDescription: 'Verifica o status de enquete',
+  pollCancelDescription: 'Cancela uma enquete',
   pollAlreadyOpenedEditPrompt:
     'Já existe uma enquete aberta (**{0}**), deseja trocar o tema? Se já houver indicações, elas serão movidas para o novo tema.',
   pollNoSuggestionsReceived: 'Ainda não houve nenhuma indicação para o tema **{0}**',
