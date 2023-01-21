@@ -11,7 +11,7 @@ export default new Command({
   options: [
     {
       type: ApplicationCommandOptionType.Subcommand,
-      name: 'listar',
+      name: 'lista',
       description: MSG.suggestionListDescription,
     },
     {

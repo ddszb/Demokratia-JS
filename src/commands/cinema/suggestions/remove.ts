@@ -11,6 +11,8 @@ import { DB, PollSuggestion } from '../../../schemas';
 
 let suggestions: PollSuggestion[] = [];
 
+const collectorIntervalSeconds = 60 * 1000;
+
 const getMenuActionRowBuilder = (suggestions: PollSuggestion[]) => {
   const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
     new StringSelectMenuBuilder()
@@ -52,7 +54,7 @@ export const removeSuggestion = async (
   });
 
   let collector = interaction.channel.createMessageComponentCollector({
-    time: 60 * 1000,
+    time: collectorIntervalSeconds,
   });
 
   collector.on('collect', async (menuInteraction) => {
