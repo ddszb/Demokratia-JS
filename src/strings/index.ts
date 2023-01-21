@@ -99,9 +99,9 @@ const MSG = {
   suggestionCategory: 'Indicações de Filmes',
   suggestionDescription: 'Operações relacionadas a indicações',
   suggestionOptionsDescription: 'Opções relacionadas a indicações (remover, listar)',
-  suggestionListDescription: 'Lista suas indicações',
+  suggestionListDescription: 'Lista as indicações para o tema atual.',
   suggestionListTitle: '🍿 Indicações 🍿',
-  suggestionListDescriptionTitle: 'Tema: **{0}**',
+  suggestionListDescriptionTheme: 'Tema: **{0}**',
   suggestionsNoneSuggested: 'Você ainda não indicou nenhum filme.',
   suggestionsUser: 'Suas indicações',
   suggestionOthers: 'Outras indicações',
@@ -111,6 +111,10 @@ const MSG = {
   suggestionRemoveDescription: 'Remova indicações para o tema atual',
   suggestionAddDescription: 'Cria uma nova enquete a partir de um tema especificado',
   suggestionFeatDescription: 'Adicione uma mensagem de "feat." caso seu filme vença!',
+  suggestionRemovePrompt: 'Selecione as opções para remover',
+  suggestionRemovePlaceholder: 'Nenhum selecionado',
+  suggestionsRemovedSuccess: 'Indicações removidas!',
+
   /**
    * MEMBER MESSAGES
    */

@@ -1,3 +1,3 @@
-import { verifyActivePoll } from './poll';
+import { getUserSuggestions, verifyActivePoll } from './poll';
 
-export { verifyActivePoll };
+export { verifyActivePoll, getUserSuggestions };
