@@ -64,7 +64,7 @@ const MSG = {
   pollNoSuggestionsReceived: 'Ainda não houve nenhuma indicação para o tema **{0}**',
   pollNotEnoughOptions: 'Não há opções suficientes para voto',
   pollVoteEmbedTitle: '📢 Votação Próximo Filme',
-  pollVoteEmbedDescription: `\n\n🍿 Tema: **{0}**. \n\n Utilize /votar para votar!`,
+  pollVoteEmbedDescription: `\n\n🍿 Tema: **{0}**. \n\n Utilize **/votar** para votar!`,
   pollVotingEmbedField: '#{0} 🎬 **{1}**',
   pollVotingEmbedFooter: 'Total: {0} votos.',
   pollCreated: 'Enquete criada!',
@@ -114,7 +114,13 @@ const MSG = {
   suggestionRemovePrompt: 'Selecione as opções para remover',
   suggestionRemovePlaceholder: 'Nenhum selecionado',
   suggestionsRemovedSuccess: 'Indicações removidas!',
-
+  /**
+   * VOTE MESSAGES
+   */
+  voteDescription: 'Vote no próximo filme para o tema atual',
+  votingMenuPrompt: 'Vote no próximo filme!',
+  votingSuccess: 'Voto confirmado! **{0}**',
+  votingNoPollAvailable: 'Nenhuma enquete encontrada',
   /**
    * MEMBER MESSAGES
    */

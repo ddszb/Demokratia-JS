@@ -2,6 +2,7 @@ import { ExtendedInteraction } from './../typings/command';
 import { ChatInputCommandInteraction } from 'discord.js';
 import { PollStatus } from '../constants/enums/PollStatus';
 import { Poll, DB } from '../schemas';
+
 /**
  * Checks for an active poll
  * @param interaction The command interaction
@@ -12,6 +13,21 @@ export const verifyActivePoll = async (
 ): Promise<Poll> => {
   const activePoll = await DB.poll.findOne({
     status: { $in: [PollStatus.ACTIVE, PollStatus.VOTING] },
+    guildId: interaction.guild.id,
+  });
+  return activePoll;
+};
+
+/**
+ * Checks for a poll waiting for voting.
+ * @param interaction The command interaction
+ * @returns The voting poll, if found, or an empty query result.
+ */
+export const verifyVotingPoll = async (
+  interaction: ExtendedInteraction & ChatInputCommandInteraction,
+): Promise<Poll> => {
+  const activePoll = await DB.poll.findOne({
+    status: { $in: [PollStatus.VOTING] },
     guildId: interaction.guild.id,
   });
   return activePoll;
