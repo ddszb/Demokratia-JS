@@ -23,4 +23,5 @@ export type CommandType = {
   userPermissions?: PermissionResolvable[];
   callback: CallbackFunction;
   cooldown?: number;
+  silent: boolean;
 } & ChatInputApplicationCommandData;

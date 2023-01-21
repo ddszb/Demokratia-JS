@@ -9,6 +9,7 @@ import { pollStatus } from './status';
 export default new Command({
   name: 'enquete',
   description: MSG.pollOptionsDescription,
+  silent: false,
   options: [
     {
       type: ApplicationCommandOptionType.Subcommand,

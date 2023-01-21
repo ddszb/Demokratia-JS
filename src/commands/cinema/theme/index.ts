@@ -10,6 +10,7 @@ import { setTheme } from './set';
 export default new Command({
   name: 'tema',
   description: 'Comandos relacionados a temas',
+  silent: false,
   options: [
     {
       type: ApplicationCommandOptionType.Subcommand,
