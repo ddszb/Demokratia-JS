@@ -56,7 +56,7 @@ export class ExtendedClient extends Client {
     this.on('ready', () => {
       this.registerCommands({
         commands: slashCommands,
-        guildId: process.env.DEV_GUILD,
+        guildId: process.env.GUILD_ID,
       });
     });
 
@@ -69,7 +69,9 @@ export class ExtendedClient extends Client {
   }
 
   async connect() {
-    mongoose.connect(process.env.MONGO_URL);
-    console.log('DB connected');
+    if (process.env.MONGO_URL) {
+      mongoose.connect(process.env.MONGO_URL);
+      console.log('DB connected');
+    }
   }
 }
