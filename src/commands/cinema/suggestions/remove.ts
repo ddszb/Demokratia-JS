@@ -1,3 +1,4 @@
+import { PollStatus } from './../../../constants/enums/PollStatus';
 import { getUserSuggestions } from './../../../queries/poll';
 import { verifyActivePoll } from './../../../queries';
 import {
@@ -39,6 +40,11 @@ export const removeSuggestion = async (
     interaction.editReply(MSG.pollNoneOpened);
     return;
   }
+  if (activePoll.status === PollStatus.VOTING) {
+    interaction.editReply(MSG.pollStartedCantSuggest);
+    return;
+  }
+
   suggestions = await getUserSuggestions(interaction, activePoll.pollId);
 
   if (suggestions.length === 0) {
