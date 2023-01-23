@@ -105,9 +105,6 @@ export const openVotingMenu = async (
   const votes: string[] = [];
   // Collector to grab user votes
   collector.on('collect', async (menuInteraction) => {
-    if (!menuInteraction.deferred) {
-      await menuInteraction.deferUpdate();
-    }
     if (!menuInteraction.isStringSelectMenu()) return;
 
     const poll = await DB.poll.findOne({
@@ -118,7 +115,6 @@ export const openVotingMenu = async (
       interaction.editReply(MSG.votingNoPollAvailable);
       return;
     }
-    // if (poll && poll.messageId) {
     const { values, user } = menuInteraction;
     for (const movie of values) {
       votes.push(movie);
