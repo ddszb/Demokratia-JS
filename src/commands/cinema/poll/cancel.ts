@@ -60,8 +60,4 @@ export const cancelPoll = async (
     }
     await interaction.deleteReply();
   });
-
-  collector.on('end', async () => {
-    await interaction.deleteReply();
-  });
 };
