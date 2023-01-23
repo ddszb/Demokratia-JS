@@ -1,8 +1,12 @@
-import { ChatInputCommandInteraction, Colors, EmbedField } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  Colors,
+  EmbedField,
+  EmbedBuilder,
+} from 'discord.js';
 import { PollStatus } from '../../../constants/enums/PollStatus';
 import { DB } from '../../../schemas';
 import MSG from '../../../strings';
-import { simpleEmbed } from '../../../utils/embedCreator';
 
 export const startPoll = async (interaction: ChatInputCommandInteraction) => {
   // Checks for active poll
@@ -63,14 +67,13 @@ export const startPoll = async (interaction: ChatInputCommandInteraction) => {
     },
   );
 
-  const embed = simpleEmbed(
-    MSG.pollVoteEmbedTitle,
-    MSG.pollVoteEmbedDescription.parseArgs(poll.theme),
-    movies,
-    Colors.Yellow,
-    undefined,
-    MSG.pollVotingEmbedFooter.parseArgs(0),
-  );
+  const embed = new EmbedBuilder()
+    .setTitle(MSG.pollVoteEmbedTitle)
+    .setDescription(MSG.pollVoteEmbedDescription.parseArgs(poll.theme))
+    .setFields(movies)
+    .setColor(Colors.Yellow)
+    .setFooter({ text: MSG.pollVotingEmbedFooter.parseArgs(0) });
+
   await interaction.editReply({ content: MSG.pollCreated });
   const message = await interaction.channel.send({
     embeds: [embed],

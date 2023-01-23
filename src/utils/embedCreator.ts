@@ -11,23 +11,6 @@ import { Movie, MovieScore, Theme } from '../schemas';
 import MSG from '../strings';
 import { roundToFixed } from './formatter';
 
-export const simpleEmbed = (
-  title: string,
-  description?: string,
-  fields?: EmbedField[],
-  color?: ColorResolvable,
-  photoUrl?: string,
-  footer?: string,
-): EmbedBuilder => {
-  return new EmbedBuilder()
-    .setTitle(title)
-    .setDescription(description || '')
-    .setFields(fields || [])
-    .setColor(color || Colors.Default)
-    .setThumbnail(photoUrl)
-    .setFooter({ text: footer || '' });
-};
-
 // Response for movie event created
 export const movieDateEmbed = async (
   movie: Movie,
@@ -155,10 +138,10 @@ export const themeRollEmbed = (theme: Theme, totalVotes: number) => {
 
 // Theme created Embed
 export const themeCreatedEmbed = (theme: string): EmbedBuilder => {
-  return simpleEmbed(
-    MSG.themeNext,
-    MSG.empty,
-    [
+  return new EmbedBuilder()
+    .setTitle(MSG.themeNext)
+    .setDescription(MSG.empty)
+    .addFields([
       {
         name: MSG.themeNextFormatter.parseArgs(theme),
         value: MSG.empty,
@@ -169,7 +152,6 @@ export const themeCreatedEmbed = (theme: string): EmbedBuilder => {
         value: MSG.themePickedTip,
         inline: false,
       },
-    ],
-    Colors.LuminousVividPink,
-  );
+    ])
+    .setColor(Colors.LuminousVividPink);
 };
