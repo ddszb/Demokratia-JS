@@ -23,12 +23,12 @@ export const sendMovieEventMessage = async (
     key: ChannelKey.MAIN,
   });
   if (mainChannel) {
-    const notificationChannel = guild.channels.cache.get(
-      mainChannel.channelId,
-    ) as TextChannel;
-    await notificationChannel.send({
-      embeds: [eventEmbed],
-      content: role ? `<@&${role.roleId}>` : '',
-    });
+    const notificationChannel = guild.channels.cache.get(mainChannel.channelId);
+    if (notificationChannel && notificationChannel.isTextBased()) {
+      await notificationChannel.send({
+        embeds: [eventEmbed],
+        content: role ? `<@&${role.roleId}>` : '',
+      });
+    }
   }
 };

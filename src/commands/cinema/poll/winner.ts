@@ -1,4 +1,3 @@
-import { PollStatus } from '../../../constants/enums/PollStatus';
 import { DB, Movie, Poll } from '../../../schemas';
 import { nextWeekDay } from '../../../utils/dateFunctions';
 import { MovieVote } from './close';
@@ -12,10 +11,6 @@ export const setWinnerMovie = async (
   await DB.pollSuggestion.updateOne(
     { pollId: poll.pollId, guildId: poll.guildId, movie: winningSuggestion.movie },
     { winner: true },
-  );
-  await DB.poll.updateOne(
-    { pollId: poll.pollId, guildId: poll.guildId },
-    { status: PollStatus.FINISHED },
   );
   const movieIdx = (await DB.movie.countDocuments({ guildId: poll.guildId })) + 1;
   const movieDate = nextWeekDay('SATURDAY').set({ hour: 21, minute: 30 });
