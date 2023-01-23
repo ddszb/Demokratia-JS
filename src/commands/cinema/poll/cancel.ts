@@ -13,7 +13,7 @@ export const cancelPoll = async (
   interaction: ExtendedInteraction & ChatInputCommandInteraction,
 ) => {
   const poll = await DB.poll.findOne({
-    status: { $in: [PollStatus.ACTIVE, PollStatus.VOTING] },
+    status: { $in: [PollStatus.ACTIVE, PollStatus.VOTING, PollStatus.TIE_BREAK] },
     guildId: interaction.guild.id,
   });
   if (!poll) {
@@ -27,12 +27,12 @@ export const cancelPoll = async (
       .setCustomId('cancel')
       .setEmoji('✖')
       .setLabel('Cancelar')
-      .setStyle(ButtonStyle.Secondary),
+      .setStyle(ButtonStyle.Danger),
     new ButtonBuilder()
       .setCustomId('confirm')
       .setEmoji('✔')
       .setLabel('Confirmar')
-      .setStyle(ButtonStyle.Primary),
+      .setStyle(ButtonStyle.Success),
   ]);
   await interaction.editReply({
     content: MSG.pollCancelPrompt.parseArgs(poll.theme),
