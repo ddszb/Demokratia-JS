@@ -10,7 +10,7 @@ export interface MovieScore {
   winningText?: string;
 }
 
-const schema = new Schema(
+const schema = new Schema<MovieScore>(
   {
     movieId: reqString,
     guildId: reqString,
