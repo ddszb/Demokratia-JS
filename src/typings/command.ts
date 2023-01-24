@@ -1,4 +1,5 @@
 import {
+  AutocompleteInteraction,
   ChatInputApplicationCommandData,
   CommandInteraction,
   CommandInteractionOptionResolver,
@@ -19,9 +20,12 @@ interface CallbackOptions {
 
 type CallbackFunction = (options: CallbackOptions) => any;
 
+type AutoCompleteFunction = (interaction: AutocompleteInteraction) => any;
+
 export type CommandType = {
   userPermissions?: PermissionResolvable[];
   callback: CallbackFunction;
+  autoComplete?: AutoCompleteFunction;
   cooldown?: number;
   silent: boolean;
 } & ChatInputApplicationCommandData;
