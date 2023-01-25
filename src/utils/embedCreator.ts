@@ -53,25 +53,17 @@ export const ratingAlreadyStartedEmbed = (movie: Movie) => {
 export const noMoviesToRateEmbed = () => {
   return new EmbedBuilder()
     .setTitle(MSG.movieRatingTitle)
-    .setFields([{ name: MSG.empty, value: MSG.scoreNoneToVote }]);
+    .setFields([{ name: MSG.empty, value: MSG.movieRatingMovieNotFound }]);
 };
 
 // Response for movie rating available
-export const movieRatePromptEmbed = (movie: Movie) => {
+export const movieRatePromptEmbed = (movie: Movie, userNickname: string) => {
   return new EmbedBuilder()
     .setTitle(MSG.movieRatingTitle)
-    .setDescription(MSG.movieRatingPrompt)
-    .setColor(Colors.Green)
-    .setFields([
-      {
-        name: `🎬 ${movie.name}`,
-        value: MSG.movieRatingUser.parseArgs(movie.userId),
-      },
-      {
-        name: MSG.empty,
-        value: MSG.empty,
-      },
-    ]);
+    .setDescription(
+      MSG.movieRatingPrompt.parseArgs(userNickname, movie.name, movie.userId),
+    )
+    .setColor(Colors.Green);
 };
 
 // Response for movie score

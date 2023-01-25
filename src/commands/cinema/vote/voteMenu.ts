@@ -86,7 +86,7 @@ export const openVotingMenu = async (
       };
     });
 
-  if (options.length === 0) {
+  if (options.length <= 1) {
     interaction.editReply({
       content: MSG.pollNotEnoughOptions,
     });

@@ -154,16 +154,16 @@ const MSG = {
   /*
    * SCORE MESSAGES
    */
-  scoreNoneToVote: 'Não há nenhum filme aguardando receber nota.',
+
   scoreEmbedTitle: 'Nota do filme',
   scoreMultipleDescription:
     'Existe mais de um filme aguardando nota.\n Qual filme você gostaria de avaliar?',
   scoreWrongValue: 'Por favor insira um valor entre 0 e 100.',
   scoreSent: 'Nota enviada! **{0}** : **{1}** ',
-  scoreUserSentEmbed: '\n 👤<@{0}> avaliou.',
+  scoreUserSentEmbed: '\n <@{0}> ✅',
   scoreCategory: 'Filmes',
   scoreDescription: 'Operações de filmes',
-  scoreEvaluationDescription: 'Permite iniciar ou fechar uma avaliação de filme',
+  scoreEvaluationDescription: 'Inicia a avaliação de filmes',
   scoreOpDescription: 'Iniciar ou Fechar uma avaliação de filme',
   scoreValueDescription: 'Dê a nota para um filme',
   scoreValueOpDescription: 'Nota do filme (0 a 100)',
@@ -171,18 +171,26 @@ const MSG = {
    * MOVIE MESSAGES
    */
   movieRatingTitle: '🍿 Avaliação do Filme 🍿',
-  movieRatingPrompt: 'Use **/filme nota** para dar uma nota para o filme atual',
+  movieRatingPrompt:
+    '\u200b\nUse **/nota** para dar uma nota para o filme atual.\n\n _A avaliação acabará automaticamente após 5min ou quando aquele que iniciou a avaliação encerrá-la manualmente_ ({0}).\n\u200b \n 🎬 **{1}** - indicado por <@{2}>\n\u200b  ',
   movieRatingUser: 'Indicação: <@{0}>',
   movieRatingAlreadyStarted: 'Já existe um filme aguardando notas ({0})',
   movieRatingNoneToClose:
     'Não há nenhuma avaliação de filme aberta.\n Utilize **/filme avaliação iniciar** antes.',
-  movieRatingNoVotesReceived: 'O filme **{0}** ainda não recebeu nota de nenhum usuário.',
+  movieRatingNoVotesReceived:
+    'O filme **{0}** não recebeu nota de nenhum usuário, e a avaliação foi cancelada. utilize /avaliação para iniciar uma nova avaliação.',
+  movieRatingStarted:
+    'Você iniciou a avaliação de filme, e apenas você poderá encerrá-la. É necessário esperar pelo menos {0} segundos.',
+  movieRatingButtonDisabled: 'Finalizar ({0}seg)',
+  movieRatingButtonEnabled: 'Finalizar',
   movieRatingEmbedWinner: '🎬 {0}',
   movieRatingEmbedSuggestion: '👤 <@{0}> (+{1} 🍿)',
   movieRatingUserScore: '👤<@{0}>: **({1}✨)**',
   movieRatingEmbedTheme: 'Tema: **{0}**',
   movieRatingEmbedFooter: 'Total: {0} votos.',
   movieRatingEmbedScore: 'Nota: **{0}** ⭐',
+  movieRatingMovieNotFound: 'Filme não encontrado.',
+  movieRatingMovieWaitingScore: 'O filme **{0}** já está aguardando nota.',
   /*
    * CLUB MESSAGES
    */
