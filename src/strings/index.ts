@@ -146,7 +146,7 @@ const MSG = {
   sessionEventName: 'Sessão de Filme: {0}',
   sessionEmbedTitle: '🍿 Sessão de Filme 🍿',
   sessionEmbedDescription: '\nFilme: **{0}**',
-  sessionEmbedFeatDescription: '\n**feat.** {0}',
+  sessionEmbedFeatDescription: '\n**ft.** {0}',
   sessionEmbedTheme: 'Tema: {0}',
   sessionEmbedUser: 'Sugestão: <@{0}>',
   sessionInviteURL: `**[MARCAR INTERESSE]({0})**`,

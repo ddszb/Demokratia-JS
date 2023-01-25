@@ -22,7 +22,7 @@ export const movieDateEmbed = async (
   const timeFormatted = `${start.format('HH:mm')}`;
   const movieName = MSG.sessionEmbedDescription.parseArgs(movie.name);
   const featMessage = movie.winningText
-    ? MSG.sessionEmbedFeatDescription.parseArgs(movie.winningText!)
+    ? MSG.sessionEmbedFeatDescription.parseArgs(movie.winningText)
     : '';
   return new EmbedBuilder()
     .setTitle(MSG.sessionEmbedTitle)
