@@ -141,13 +141,13 @@ export const startClosePollCollector = async (
   interaction: ExtendedInteraction & ChatInputCommandInteraction,
 ) => {
   interaction.editReply({
-    content: MSG.pollStarted.parseArgs(buttonDisabledTimeSeconds),
+    content: MSG.pollStarted,
     components: [getInteractionButtonRow(true)],
   });
   setTimeout(
     () =>
       interaction.editReply({
-        content: MSG.movieRatingStarted.parseArgs(buttonDisabledTimeSeconds),
+        content: MSG.movieRatingStarted,
         components: [getInteractionButtonRow(false)],
       }),
     buttonDisabledTimeSeconds * 1000,

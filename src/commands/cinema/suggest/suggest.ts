@@ -44,7 +44,5 @@ export const sendSuggestion = async (
     date: new Date(),
     winningText: featMessage,
   });
-  interaction.editReply({
-    content: MSG.pollSuggestionSent.parseArgs(movie),
-  });
+  await interaction.deleteReply();
 };

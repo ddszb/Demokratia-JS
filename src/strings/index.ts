@@ -75,8 +75,7 @@ const MSG = {
   pollReceivingSuggestions: '```yaml\n Recebendo indicações```',
   pollVotingStage: '```fix\nEm votação```',
   pollTieBreakStage: '```fix\nAguardando desempate```',
-  pollStarted:
-    'Você iniciou uma enquete, e apenas você poderá encerrá-la. É necessário esperar pelo menos {0} segundos.',
+  pollStarted: 'Você iniciou uma enquete, e apenas você poderá encerrá-la.',
   pollButtonDisabled: 'Finalizar (🔒 {0}s)',
   pollButtonEnabled: 'Finalizar ✅',
   pollIsTied:
@@ -186,7 +185,7 @@ const MSG = {
   movieRatingNoVotesReceived:
     'O filme **{0}** não recebeu nota de nenhum usuário, e a avaliação foi cancelada. utilize /avaliação para iniciar uma nova avaliação.',
   movieRatingStarted:
-    'Você iniciou a avaliação de filme, e apenas você poderá encerrá-la. É necessário esperar pelo menos {0} segundos.',
+    'Você iniciou a avaliação de filme, e apenas você poderá encerrá-la.',
   movieRatingButtonDisabled: 'Finalizar ({0}seg)',
   movieRatingButtonEnabled: 'Finalizar',
   movieRatingEmbedWinner: '🎬 {0}',
