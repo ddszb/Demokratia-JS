@@ -13,7 +13,6 @@ import { movieRatingEmbed } from '../../../utils/embedCreator';
 import { calculateExp, calculateRank } from '../../../utils/expCalcs';
 
 const buttonDisabledTimeSeconds = 30;
-const collectorIntervalSeconds = 300;
 
 const getInteractionButtonRow = (disabled: boolean) => {
   const buttonLabel = disabled
@@ -107,15 +106,11 @@ export const startCloseRatingCollector = async (
     buttonDisabledTimeSeconds * 1000,
   );
 
-  let collector = interaction.channel.createMessageComponentCollector({
-    time: collectorIntervalSeconds * 1000,
-  });
+  let collector = interaction.channel.createMessageComponentCollector();
 
   collector.on('collect', async (buttonInteraction) => {
     if (buttonInteraction.customId === 'close') {
       closeRating(interaction, movie);
     }
   });
-
-  collector.on('end', async () => closeRating(interaction, movie));
 };

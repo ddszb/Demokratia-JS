@@ -172,7 +172,7 @@ const MSG = {
    */
   movieRatingTitle: '🍿 Avaliação do Filme 🍿',
   movieRatingPrompt:
-    '\u200b\nUse **/nota** para dar uma nota para o filme atual.\n\n _A avaliação acabará automaticamente após 5min ou quando aquele que iniciou a avaliação encerrá-la manualmente_ ({0}).\n\u200b \n 🎬 **{1}** - indicado por <@{2}>\n\u200b  ',
+    '\u200b\nUse **/nota** para dar uma nota para o filme atual.\n\n _Apenas quem iniciou a avaliação poderá encerrá-la_ ({0}).\n\u200b \n 🎬 **{1}** - indicado por <@{2}>\n\u200b  ',
   movieRatingUser: 'Indicação: <@{0}>',
   movieRatingAlreadyStarted: 'Já existe um filme aguardando notas ({0})',
   movieRatingNoneToClose:

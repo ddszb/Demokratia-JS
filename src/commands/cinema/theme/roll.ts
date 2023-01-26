@@ -62,9 +62,7 @@ export const rollTheme = async (
   });
 
   // Button interaction collector
-  const collector = interaction.channel.createMessageComponentCollector({
-    time: 300 * 1000,
-  });
+  const collector = interaction.channel.createMessageComponentCollector();
 
   collector.on('collect', async (i: ButtonInteraction) => {
     if (i.customId === 're-roll') {
@@ -106,17 +104,6 @@ export const rollTheme = async (
       i.update({
         embeds: [themeRollEmbed(selected, VOTES_NEEDED)],
         components: [getButtonsRow()],
-      });
-    }
-  });
-
-  // On time limit reached, this callback is called
-  collector.on('end', async () => {
-    if (confirms.size < VOTES_NEEDED) {
-      await interaction.editReply({
-        embeds: [],
-        content: MSG.timeout,
-        components: [],
       });
     }
   });
