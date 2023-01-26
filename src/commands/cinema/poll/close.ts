@@ -1,4 +1,7 @@
 import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
@@ -7,9 +10,12 @@ import {
 import { PollStatus } from '../../../constants/enums/PollStatus';
 import { DB } from '../../../schemas';
 import MSG from '../../../strings';
+import { ExtendedInteraction } from '../../../typings/command';
 import { createMovieEvent } from '../../../utils/eventCreator';
 import { sendMovieEventMessage } from '../../../utils/messageSender';
 import { setWinnerMovie } from './winner';
+
+const buttonDisabledTimeSeconds = 30;
 
 export interface MovieVote {
   movie: string;
@@ -18,7 +24,24 @@ export interface MovieVote {
   featText?: string;
 }
 
-export const closePoll = async (interaction: ChatInputCommandInteraction) => {
+const getInteractionButtonRow = (disabled: boolean) => {
+  const buttonLabel = disabled
+    ? MSG.pollButtonDisabled.parseArgs(buttonDisabledTimeSeconds)
+    : MSG.pollButtonEnabled;
+  const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId('close')
+      .setLabel(buttonLabel)
+      .setEmoji(disabled ? '🔒' : '✅')
+      .setDisabled(disabled)
+      .setStyle(ButtonStyle.Primary),
+  );
+  return buttonRow;
+};
+
+export const closePoll = async (
+  interaction: ExtendedInteraction & ChatInputCommandInteraction,
+) => {
   const poll = await DB.poll.findOne({
     status: { $in: [PollStatus.ACTIVE, PollStatus.VOTING, PollStatus.TIE_BREAK] },
     guildId: interaction.guild.id,
@@ -32,12 +55,6 @@ export const closePoll = async (interaction: ChatInputCommandInteraction) => {
   if (poll.status === PollStatus.ACTIVE) {
     await interaction.editReply({
       content: MSG.pollHasntStarted,
-    });
-    return;
-  }
-  if (poll.status === PollStatus.TIE_BREAK) {
-    await interaction.editReply({
-      content: MSG.pollIsTied,
     });
     return;
   }
@@ -66,23 +83,20 @@ export const closePoll = async (interaction: ChatInputCommandInteraction) => {
   });
   movieVotes = movieVotes.sort((a, b) => b.count - a.count);
   const winningCount = movieVotes[0].count;
-  const mostVoted = movieVotes.filter((m) => m.count === winningCount);
-  const draw = mostVoted.length > 1;
+  const winners = movieVotes.filter((m) => m.count === winningCount);
 
   const embedFields: EmbedField[] = movieVotes.map((m) => ({
     name: MSG.empty,
     value: `${m.movie}: ${m.count > 0 ? '🍿'.repeat(m.count) : '✖'}`,
     inline: false,
   }));
-  const embed = new EmbedBuilder().setTitle(MSG.pollEmbedTitle).setFields(embedFields);
-  if (draw) {
+  if (winners.length > 1) {
+    const numUniqueVoters = new Set(suggestions).size;
     await DB.poll.updateOne(
       { pollId: poll.pollId, guildId: interaction.guild.id },
       { status: PollStatus.TIE_BREAK },
     );
-    embed.setDescription(
-      MSG.pollDrawDescription.parseArgs(mostVoted.map((m) => m.movie).join(', ')),
-    );
+    // WIP tiebreakVoting(interaction, winners, numUniqueVoters, poll.pollId);
   } else {
     await DB.poll.updateOne(
       { pollId: poll.pollId, guildId: interaction.guild.id },
@@ -90,22 +104,60 @@ export const closePoll = async (interaction: ChatInputCommandInteraction) => {
     );
     const winningSuggestion = movieVotes[0];
     const movie = await setWinnerMovie(poll, winningSuggestion);
-    embed.setTitle(MSG.pollEndedTitle);
-    embed.setDescription(
-      MSG.pollSuggestionsEmbedField.parseArgs(
-        winningSuggestion.movie,
-        winningSuggestion.userId,
-      ),
-    );
-    embed.setColor(Colors.Gold);
+    const embed = new EmbedBuilder()
+      .setTitle(MSG.pollEndedTitle)
+      .setFields(embedFields)
+      .setDescription(
+        MSG.pollSuggestionsEmbedField.parseArgs(
+          winningSuggestion.movie,
+          winningSuggestion.userId,
+        ),
+      )
+      .setColor(Colors.Gold);
     const event = await createMovieEvent(
       winningSuggestion.movie,
       movie.sessionDate,
       interaction.channel.guild,
     );
     await sendMovieEventMessage(movie, event, interaction.channel.guild);
+
+    const message = await interaction.channel.messages.fetch(poll.messageId);
+    if (message) {
+      await message.edit({
+        embeds: [embed],
+      });
+    } else {
+      await interaction.channel.send({ embeds: [embed] });
+    }
+    try {
+      await interaction.deleteReply();
+    } catch (error) {
+      return;
+    }
   }
-  await interaction.editReply({
-    embeds: [embed],
+};
+
+export const startClosePollCollector = async (
+  interaction: ExtendedInteraction & ChatInputCommandInteraction,
+) => {
+  interaction.editReply({
+    content: MSG.pollStarted.parseArgs(buttonDisabledTimeSeconds),
+    components: [getInteractionButtonRow(true)],
+  });
+  setTimeout(
+    () =>
+      interaction.editReply({
+        content: MSG.movieRatingStarted.parseArgs(buttonDisabledTimeSeconds),
+        components: [getInteractionButtonRow(false)],
+      }),
+    buttonDisabledTimeSeconds * 1000,
+  );
+
+  let collector = interaction.channel.createMessageComponentCollector();
+
+  collector.on('collect', async (buttonInteraction) => {
+    if (buttonInteraction.customId === 'close') {
+      closePoll(interaction);
+    }
   });
 };

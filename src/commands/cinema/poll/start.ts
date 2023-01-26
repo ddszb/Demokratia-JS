@@ -7,8 +7,12 @@ import {
 import { PollStatus } from '../../../constants/enums/PollStatus';
 import { DB } from '../../../schemas';
 import MSG from '../../../strings';
+import { ExtendedInteraction } from '../../../typings/command';
+import { startClosePollCollector } from './close';
 
-export const startPoll = async (interaction: ChatInputCommandInteraction) => {
+export const startPoll = async (
+  interaction: ExtendedInteraction & ChatInputCommandInteraction,
+) => {
   // Checks for active poll
   const poll = await DB.poll.findOne({
     status: { $in: [PollStatus.ACTIVE, PollStatus.VOTING] },
@@ -71,10 +75,12 @@ export const startPoll = async (interaction: ChatInputCommandInteraction) => {
     .setTitle(MSG.pollVoteEmbedTitle)
     .setDescription(MSG.pollVoteEmbedDescription.parseArgs(poll.theme))
     .setFields(movies)
+    .addFields({ name: MSG.empty, value: MSG.empty })
     .setColor(Colors.Yellow)
     .setFooter({ text: MSG.pollVotingEmbedFooter.parseArgs(0) });
 
-  await interaction.editReply({ content: MSG.pollCreated });
+  startClosePollCollector(interaction);
+
   const message = await interaction.channel.send({
     embeds: [embed],
     content: MSG.empty,

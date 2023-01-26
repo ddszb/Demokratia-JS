@@ -16,7 +16,7 @@ const MAX_OPTIONS_OVER_LIMIT = 3;
 const MAX_OPTIONS_UNDER_LIMIT = 2;
 const MIN_OPTIONS_OVER_LIMIT = 2;
 const MIN_OPTIONS_UNDER_LIMIT = 1;
-const collectorIntervalSeconds = 60 * 1000;
+const collectorIntervalSeconds = 600;
 
 const getMenuActionRowBuilder = (options: SelectMenuComponentOptionData[]) => {
   const maxVotes =
@@ -75,7 +75,6 @@ export const openVotingMenu = async (
     });
     return;
   }
-
   // Filter suggestions made by other users, because the user can't vote for their own suggestions
   const options = suggestions
     .filter((s) => s.userId !== interaction.user.id)
@@ -99,7 +98,7 @@ export const openVotingMenu = async (
   });
 
   const collector = interaction.channel.createMessageComponentCollector({
-    time: collectorIntervalSeconds,
+    time: collectorIntervalSeconds * 1000,
   });
 
   const votes: string[] = [];
@@ -127,7 +126,8 @@ export const openVotingMenu = async (
         votingIndex: 0,
       });
     }
-    await interaction.editReply({
+
+    await menuInteraction.update({
       content: MSG.votingSuccess.parseArgs(votes.join(', ')),
       components: [],
     });
@@ -140,7 +140,9 @@ export const openVotingMenu = async (
     const pollMessage = await interaction.channel.messages.fetch(poll.messageId!);
     const originalEmbed = pollMessage.embeds[0];
     let votesSent = originalEmbed.fields.pop()!;
-    votesSent.value = votesSent.value.concat('\n✅<@{0}>'.parseArgs(interaction.user.id));
+    votesSent.value = votesSent.value.concat(
+      '\n✅<@{0}>'.parseArgs(menuInteraction.user.id),
+    );
     const editedEmbed = EmbedBuilder.from(originalEmbed)
       .addFields(votesSent)
       .setFooter({ text: MSG.pollVotingEmbedFooter.parseArgs(numVotes) });

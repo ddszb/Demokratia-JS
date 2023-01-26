@@ -67,7 +67,6 @@ const MSG = {
   pollVoteEmbedDescription: `\n\n🍿 Tema: **{0}**. \n\n Utilize **/votar** para votar!`,
   pollVotingEmbedField: '#{0} 🎬 **{1}**',
   pollVotingEmbedFooter: 'Total: {0} votos.',
-  pollCreated: 'Enquete criada!',
   pollSuggestions: 'Indicações:',
   pollCancelPrompt:
     'Deseja cancelar a enquete para o tema **{0}**? Essa ação é irreversível.',
@@ -76,7 +75,14 @@ const MSG = {
   pollReceivingSuggestions: '```yaml\n Recebendo indicações```',
   pollVotingStage: '```fix\nEm votação```',
   pollTieBreakStage: '```fix\nAguardando desempate```',
-  pollIsTied: 'Enquete em empate! utilize /desempate para registrar o vencedor.',
+  pollStarted:
+    'Você iniciou uma enquete, e apenas você poderá encerrá-la. É necessário esperar pelo menos {0} segundos.',
+  pollButtonDisabled: 'Finalizar (🔒 {0}s)',
+  pollButtonEnabled: 'Finalizar ✅',
+  pollIsTied:
+    '**Enquete em empate! Vote no filme para desempatar.** {0} votos recebidos.',
+  pollTiebreakConfirmButtonDisabled: 'Finalizar (🔒 {0}s)',
+  pollTiebreakConfirmButtonEnabled: 'Finalizar (👤 {0})',
   pollHasntStarted:
     'A enquete não foi iniciada. Utilize /enquete iniciar para iniciar a enquete para o tema atual.',
   pollPickPrompt: 'Escolha os filmes!',
