@@ -8,6 +8,7 @@ import { DB, Poll } from '../../../schemas';
 import MSG from '../../../strings';
 import { ExtendedInteraction } from './../../../typings/command';
 import { createNewTheme } from './create';
+
 export const changeThemeCallback = async (
   interaction: ExtendedInteraction & ChatInputCommandInteraction,
   poll: Poll,
@@ -15,10 +16,7 @@ export const changeThemeCallback = async (
   const filter = (btnInt: Interaction) => {
     return interaction.user.id === btnInt.user.id;
   };
-  const collector = interaction.channel.createMessageComponentCollector({
-    filter,
-    time: 180 * 1000,
-  });
+  const collector = interaction.channel.createMessageComponentCollector({ filter });
 
   // Button interaction collector
   collector.on('collect', async (i: ButtonInteraction) => {
@@ -48,14 +46,5 @@ export const changeThemeCallback = async (
         components: [],
       });
     }
-  });
-
-  // On time or max limit reached, this callback is called
-  collector.on('end', async () => {
-    await interaction.editReply({
-      embeds: [],
-      content: MSG.timeout,
-      components: [],
-    });
   });
 };
