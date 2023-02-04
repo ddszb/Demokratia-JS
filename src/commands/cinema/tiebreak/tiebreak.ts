@@ -46,7 +46,6 @@ export const tiebreakVoting = async (interaction: ExtendedInteraction, poll: Pol
     votingIndex: VotingStatus.TIEBREAK,
   });
 
-  // const pollMessage = await interaction.channel.messages.fetch(poll.messageId!);
   await interaction.editReply({
     content: MSG.pollTiedFinishPrompt.parseArgs(` 0 votos`),
     components: [getConfirmButtonRow()],

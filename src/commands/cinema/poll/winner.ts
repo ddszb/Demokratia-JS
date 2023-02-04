@@ -1,7 +1,6 @@
 import { PollSuggestion } from './../../../schemas/poll-suggestion';
 import { DB, Movie, Poll } from '../../../schemas';
 import { nextWeekDay } from '../../../utils/dateFunctions';
-import { MovieVote } from './close';
 import { v4 as uuid } from 'uuid';
 import { MovieStatus } from '../../../constants/enums/MovieStatus';
 
