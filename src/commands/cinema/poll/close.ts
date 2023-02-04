@@ -48,21 +48,6 @@ export const getWinners = (movieVotes: MovieVote[]) => {
   return movieVotes.filter((movieVote) => movieVote.count == winnerCount);
 };
 
-const getInteractionButtonRow = (disabled: boolean) => {
-  const buttonLabel = disabled
-    ? MSG.pollButtonDisabled.parseArgs(buttonDisabledTimeSeconds)
-    : MSG.pollButtonEnabled;
-  const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder()
-      .setCustomId('close')
-      .setLabel(buttonLabel)
-      .setEmoji(disabled ? '🔒' : '✅')
-      .setDisabled(disabled)
-      .setStyle(ButtonStyle.Primary),
-  );
-  return buttonRow;
-};
-
 export const closePoll = async (
   interaction: ExtendedInteraction & ChatInputCommandInteraction,
 ) => {
@@ -160,30 +145,4 @@ export const closePoll = async (
       return;
     }
   }
-};
-
-export const startClosePollCollector = async (
-  interaction: ExtendedInteraction & ChatInputCommandInteraction,
-) => {
-  interaction.editReply({
-    content: MSG.pollStarted,
-    components: [getInteractionButtonRow(true)],
-  });
-  setTimeout(
-    () =>
-      interaction.editReply({
-        content: MSG.movieRatingStarted,
-        components: [getInteractionButtonRow(false)],
-      }),
-    buttonDisabledTimeSeconds * 1000,
-  );
-
-  let collector = interaction.channel.createMessageComponentCollector();
-
-  collector.on('collect', async (buttonInteraction) => {
-    if (buttonInteraction.customId === 'close') {
-      await interaction.editReply({ components: [] });
-      closePoll(interaction);
-    }
-  });
 };

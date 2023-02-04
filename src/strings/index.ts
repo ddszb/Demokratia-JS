@@ -59,6 +59,8 @@ const MSG = {
   pollCloseDescription: 'Encerra uma enquete aberta',
   pollStatusDescription: 'Verifica o status de enquete',
   pollCancelDescription: 'Cancela uma enquete',
+  pollUserOpenedPoll:
+    'Você abriu a enquete para o tema **{0}**. Aguarde todos votarem antes de fechar com _/enquete fechar_',
   pollAlreadyOpenedEditPrompt:
     'Já existe uma enquete aberta (**{0}**), deseja trocar o tema? Se já houver indicações, elas serão movidas para o novo tema.',
   pollNoSuggestionsReceived: 'Ainda não houve nenhuma indicação para o tema **{0}**',

@@ -2,6 +2,7 @@ import { ApplicationCommandOptionType } from 'discord.js';
 import MSG from '../../../strings';
 import { Command } from '../../../structures/Command';
 import { cancelPoll } from './cancel';
+import { closePoll } from './close';
 import { startPoll } from './start';
 import { pollStatus } from './status';
 
@@ -14,6 +15,11 @@ export default new Command({
       type: ApplicationCommandOptionType.Subcommand,
       name: 'iniciar',
       description: MSG.pollStartDescription,
+    },
+    {
+      type: ApplicationCommandOptionType.Subcommand,
+      name: 'fechar',
+      description: MSG.pollCloseDescription,
     },
     {
       type: ApplicationCommandOptionType.Subcommand,
@@ -32,6 +38,9 @@ export default new Command({
     switch (subCommand) {
       case 'iniciar':
         startPoll(interaction);
+        break;
+      case 'fechar':
+        closePoll(interaction);
         break;
       case 'status':
         pollStatus(interaction);
