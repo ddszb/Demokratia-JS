@@ -1,3 +1,4 @@
+import { PollSuggestion } from './../../../schemas/poll-suggestion';
 import { DB, Movie, Poll } from '../../../schemas';
 import { nextWeekDay } from '../../../utils/dateFunctions';
 import { MovieVote } from './close';
@@ -6,7 +7,7 @@ import { MovieStatus } from '../../../constants/enums/MovieStatus';
 
 export const setWinnerMovie = async (
   poll: Poll,
-  winningSuggestion: MovieVote,
+  winningSuggestion: PollSuggestion,
 ): Promise<Movie> => {
   await DB.pollSuggestion.updateOne(
     { pollId: poll.pollId, guildId: poll.guildId, movie: winningSuggestion.movie },
@@ -23,7 +24,7 @@ export const setWinnerMovie = async (
     userId: winningSuggestion.userId,
     theme: poll.theme,
     sessionDate: movieDate.toDate(),
-    winningText: winningSuggestion.featText,
+    winningText: winningSuggestion.winningText,
     score: -1,
     legacy: false,
     status: MovieStatus.NOT_WATCHED,
