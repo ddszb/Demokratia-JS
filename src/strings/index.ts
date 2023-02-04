@@ -77,11 +77,13 @@ const MSG = {
   pollTieBreakStage: '```fix\nAguardando desempate```',
   pollStarted: 'Você iniciou uma enquete, e apenas você poderá encerrá-la.',
   pollButtonDisabled: 'Finalizar (🔒 {0}s)',
-  pollButtonEnabled: 'Finalizar ✅',
-  pollIsTied:
-    '**Enquete em empate! Vote no filme para desempatar.** {0} votos recebidos.',
-  pollTiebreakConfirmButtonDisabled: 'Finalizar (🔒 {0}s)',
-  pollTiebreakConfirmButtonEnabled: 'Finalizar (👤 {0})',
+  pollButtonEnabled: 'Finalizar',
+  pollIsTied: '**Empate**! Utilize /desempate para iniciar a votação de desempate.',
+  pollTiedFinishPrompt: '**Empate**! Após todos votarem, encerre o desempate.\n {0}',
+  pollSecondTieMessage:
+    '\n🍿 Votação encerrada!\n\n Houve um segundo empate!\n Decidam por outro critério e use **/desempate** para escolher o vencedor dentre os filmes empatados (_não haverá uma outra votação_) \n\n **{0}**',
+  pollTiedVotingPrompt: 'Vote em um filme para desempatar.',
+  pollTiebreakConfirmButton: 'Finalizar',
   pollHasntStarted:
     'A enquete não foi iniciada. Utilize /enquete iniciar para iniciar a enquete para o tema atual.',
   pollPickPrompt: 'Escolha os filmes!',
@@ -92,10 +94,10 @@ const MSG = {
   pollTieBreakEmbedDescription: 'Escolha o filme que ganhou no critério de desempate',
   pollDrawDescription:
     '**Empate!** Decidam entre: **{0}** e utilize /desempate para registrar o vencedor',
-  pollSuggestionsEmbedField: '🎬 **{0}**\n sugestão de <@{1}>',
+  pollSuggestionsEmbedField: '🎬 **{0}**',
   pollNextMovie: 'Próximo filme',
   pollNoDraws: 'Não há desempates pendentes.',
-  pollTieBreakDescription: 'Seleciona o filme  que venceu o critério de desempate',
+  pollTieBreakDescription: 'Inicia o desempate entre filmes na enquete',
   pollTieBreakCategory: 'Indicações',
   pollEndedTitle: 'Votação encerrada',
   /*
