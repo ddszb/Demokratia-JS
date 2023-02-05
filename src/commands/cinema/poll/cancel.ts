@@ -52,6 +52,8 @@ export const cancelPoll = async (
         { pollId: poll.pollId, guildId: poll.guildId },
         { status: PollStatus.CANCELED },
       );
+      await DB.pollSuggestion.deleteMany({ pollId: poll.pollId, guildId: poll.guildId });
+      await DB.pollVote.deleteMany({ pollId: poll.pollId, guildId: poll.guildId });
       await interaction.editReply({
         content: MSG.pollCancelledSuccess.parseArgs(poll.theme),
         components: [],

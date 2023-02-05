@@ -5,6 +5,9 @@ import {
   SelectMenuComponentOptionData,
   StringSelectMenuBuilder,
   EmbedBuilder,
+  EmbedField,
+  userMention,
+  StringSelectMenuInteraction,
 } from 'discord.js';
 import { ExtendedInteraction } from '../../../typings/command';
 import MSG from '../../../strings';
@@ -83,7 +86,8 @@ export const openVotingMenu = async (
         label: suggestion.movie,
         value: suggestion.movie,
       };
-    });
+    })
+    .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
 
   if (options.length <= 1) {
     interaction.editReply({
@@ -98,7 +102,7 @@ export const openVotingMenu = async (
   });
 
   const collector = interaction.channel.createMessageComponentCollector({
-    time: collectorIntervalSeconds * 1000,
+    filter: (currInt) => interaction.user.id === currInt.user.id,
   });
 
   const votes: string[] = [];
@@ -127,7 +131,7 @@ export const openVotingMenu = async (
       });
     }
 
-    await menuInteraction.update({
+    await interaction.editReply({
       content: MSG.votingSuccess.parseArgs(votes.join(', ')),
       components: [],
     });
@@ -136,16 +140,35 @@ export const openVotingMenu = async (
       guildId: interaction.guild.id,
       pollId: poll.pollId,
     });
-    const numVotes = [...new Set(currentVotes.map((c) => c.userId))].length;
+    const votedUsers = [...new Set(currentVotes.map((c) => c.userId))];
     const pollMessage = await interaction.channel.messages.fetch(poll.messageId!);
     const originalEmbed = pollMessage.embeds[0];
-    let votesSent = originalEmbed.fields.pop()!;
-    votesSent.value = votesSent.value.concat(
-      '\n✅<@{0}>'.parseArgs(menuInteraction.user.id),
+
+    const movies: EmbedField[] = suggestions
+      .sort((a, b) => a.movie.localeCompare(b.movie))
+      .map((suggestion, index) => {
+        return {
+          name: MSG.empty,
+          value: MSG.pollVotingEmbedField.parseArgs(index + 1, suggestion.movie),
+          inline: false,
+        } as EmbedField;
+      });
+    movies.push(
+      {
+        name: MSG.empty,
+        value: MSG.empty,
+        inline: false,
+      },
+      {
+        name: MSG.votes,
+        value: votedUsers.map((userId) => '✅' + userMention(userId)).join('\n'),
+        inline: false,
+      },
     );
+
     const editedEmbed = EmbedBuilder.from(originalEmbed)
-      .addFields(votesSent)
-      .setFooter({ text: MSG.pollVotingEmbedFooter.parseArgs(numVotes) });
+      .setFields(movies)
+      .setFooter({ text: MSG.pollVotingEmbedFooter.parseArgs(votedUsers.length) });
     pollMessage.edit({
       embeds: [editedEmbed],
     });

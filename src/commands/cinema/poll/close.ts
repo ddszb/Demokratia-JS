@@ -117,7 +117,7 @@ export const closePoll = async (
       { pollId: poll.pollId, guildId: interaction.guild.id },
       { status: PollStatus.FINISHED },
     );
-    const winningSuggestion = movieVotes[0];
+    const winningSuggestion = winners[0];
     const winner = suggestions.find((s) => s.movie === winningSuggestion.movie);
 
     if (winner) {
