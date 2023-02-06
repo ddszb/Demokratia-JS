@@ -6,8 +6,6 @@ import { roundToFixed } from '../../../utils/formatter';
 import { Paginator } from '../../../utils/paginator';
 import { Command } from './../../../structures/Command';
 
-const TIME_LIMIT_SECONDS = 1000 * 120;
-
 export default new Command({
   name: 'ranking',
   description: MSG.rankingDescription,
@@ -36,9 +34,7 @@ export default new Command({
 
     interaction.editReply(paginator.getReply());
 
-    let collector = interaction.channel.createMessageComponentCollector({
-      time: TIME_LIMIT_SECONDS,
-    });
+    let collector = interaction.channel.createMessageComponentCollector();
 
     collector.on('collect', async (btnInt) => {
       paginator.onPageChange(btnInt);

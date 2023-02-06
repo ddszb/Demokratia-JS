@@ -7,7 +7,6 @@ import { Paginator } from '../../../utils/paginator';
 export const listTheme = async (
   interaction: ExtendedInteraction & ChatInputCommandInteraction,
 ) => {
-  const TIME_LIMIT = 1000 * 60;
   const themes = await DB.theme.find({ guildId: interaction.guild.id }).sort('name');
 
   const themesRemaining = themes.filter((t) => t.repeating || t.occurrences === 0);
@@ -32,16 +31,10 @@ export const listTheme = async (
 
   interaction.editReply(paginator.getReply());
 
-  let listCollector = interaction.channel.createMessageComponentCollector({
-    time: TIME_LIMIT,
-  });
+  let listCollector = interaction.channel.createMessageComponentCollector();
+
   listCollector.on('collect', async (btnInt) => {
     paginator.onPageChange(btnInt);
     interaction.editReply(paginator.getReply());
-  });
-
-  listCollector.on('end', async () => {
-    paginator.onTimeOut();
-    await interaction.editReply(paginator.getReply());
   });
 };
