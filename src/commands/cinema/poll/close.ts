@@ -1,7 +1,4 @@
 import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
   ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
@@ -9,14 +6,12 @@ import {
 } from 'discord.js';
 import { PollStatus } from '../../../constants/enums/PollStatus';
 import { VotingStatus } from '../../../constants/enums/VotingStatus';
-import { DB, PollSuggestion, PollVote } from '../../../schemas';
+import { DB, PollVote } from '../../../schemas';
 import MSG from '../../../strings';
 import { ExtendedInteraction } from '../../../typings/command';
 import { createMovieEvent } from '../../../utils/eventCreator';
 import { sendMovieEventMessage } from '../../../utils/messageSender';
 import { setWinnerMovie } from './winner';
-
-const buttonDisabledTimeSeconds = 30;
 
 export interface MovieVote {
   movie: string;

@@ -1,8 +1,15 @@
-import { PollSuggestion } from './../../../schemas/poll-suggestion';
+import { PollSuggestion } from '../../../schemas/poll-suggestion';
 import { DB, Movie, Poll } from '../../../schemas';
 import { nextWeekDay } from '../../../utils/dateFunctions';
-import { v4 as uuid } from 'uuid';
 import { MovieStatus } from '../../../constants/enums/MovieStatus';
+import { ExtendedInteraction } from '../../../typings/command';
+import { ChatInputCommandInteraction, userMention } from 'discord.js';
+import MSG from '../../../strings';
+import { PollStatus } from '../../../constants/enums/PollStatus';
+import { newConfirmationButtonRow } from '../../../utils/componentBuilder';
+import { v4 as uuid } from 'uuid';
+import { createMovieEvent } from '../../../utils/eventCreator';
+import { sendMovieEventMessage } from '../../../utils/messageSender';
 
 export const setWinnerMovie = async (
   poll: Poll,
@@ -31,4 +38,84 @@ export const setWinnerMovie = async (
 
   await DB.movie.create(movie);
   return movie;
+};
+
+export const setWinnerManually = async (
+  interaction: ExtendedInteraction & ChatInputCommandInteraction,
+) => {
+  const winnerMovieName = interaction.options.getString('vencedor');
+  if (!winnerMovieName) {
+    await interaction.editReply(MSG.pollMovieNotFound);
+  }
+  const poll = await DB.poll.findOne({
+    status: { $in: [PollStatus.ACTIVE, PollStatus.VOTING, PollStatus.TIE_BREAK] },
+    guildId: interaction.guild.id,
+  });
+  if (!poll) {
+    await interaction.editReply({
+      content: MSG.pollNoneOpened,
+    });
+    return;
+  }
+  const confirmId = uuid();
+  const cancelId = uuid();
+  const buttons = newConfirmationButtonRow(confirmId, cancelId);
+  await interaction.editReply({
+    content: MSG.pollManualConfirmPrompt.parseArgs(winnerMovieName),
+    components: [buttons],
+  });
+
+  let collector = interaction.channel.createMessageComponentCollector();
+  collector.on('collect', async (btnInt) => {
+    if (btnInt.customId === cancelId) {
+      await interaction.deleteReply();
+    } else if (btnInt.customId === confirmId) {
+      try {
+        await DB.pollVote.deleteMany({
+          guildId: interaction.guild.id,
+          pollId: poll.pollId,
+        });
+
+        await DB.pollVote.create({
+          pollId: poll.pollId,
+          guildId: poll.guildId,
+          userId: interaction.client.user.id,
+          date: new Date(),
+          movie: winnerMovieName,
+          votingIndex: 0,
+        });
+
+        const winningSuggestion = await DB.pollSuggestion.findOne({
+          movie: winnerMovieName,
+          pollId: poll.pollId,
+        });
+        if (!winningSuggestion) {
+          await interaction.editReply({
+            content: MSG.pollMovieNotFound,
+          });
+          return;
+        }
+
+        if (winningSuggestion) {
+          const movie = await setWinnerMovie(poll, winningSuggestion);
+          const event = await createMovieEvent(
+            winningSuggestion.movie,
+            movie.sessionDate,
+            interaction.channel.guild,
+          );
+          await sendMovieEventMessage(movie, event, interaction.channel.guild);
+        }
+
+        await interaction.channel.send({
+          content: MSG.pollManualWinner.parseArgs(
+            winnerMovieName,
+            userMention(interaction.user.id),
+          ),
+        });
+        await interaction.deleteReply();
+      } catch (error) {
+        return;
+      }
+    }
+  });
 };

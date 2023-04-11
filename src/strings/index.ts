@@ -59,6 +59,7 @@ const MSG = {
   pollCloseDescription: 'Encerra uma enquete aberta',
   pollStatusDescription: 'Verifica o status de enquete',
   pollCancelDescription: 'Cancela uma enquete',
+  pollMovieNotFound: 'Filme não encontrado',
   pollUserOpenedPoll:
     'Você abriu a enquete para o tema **{0}**. Aguarde todos votarem antes de fechar com _/enquete fechar_',
   pollAlreadyOpenedEditPrompt:
@@ -105,6 +106,10 @@ const MSG = {
   pollTieBreakDescription: 'Inicia o desempate entre filmes na enquete',
   pollTieBreakCategory: 'Indicações',
   pollEndedTitle: 'Votação encerrada',
+  pollManualConfirmPrompt:
+    'Deseja definir manualmente o filme **{0}** como vencedor da enquete atual?\n',
+  pollManualWinner:
+    'Enquete Fechada!\n Próximo filme: \n\n 🎬 **{0}** \n\n(_definido manualmente por {1}_).',
   /*
    * SUGGESTION MESSAGES
    */

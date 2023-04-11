@@ -5,6 +5,8 @@ import { cancelPoll } from './cancel';
 import { closePoll } from './close';
 import { startPoll } from './start';
 import { pollStatus } from './status';
+import { setWinnerAutoComplete } from './autocomplete';
+import { setWinnerManually } from './winner';
 
 export default new Command({
   name: 'enquete',
@@ -31,6 +33,19 @@ export default new Command({
       name: 'cancelar',
       description: MSG.pollCancelDescription,
     },
+    {
+      type: ApplicationCommandOptionType.Subcommand,
+      name: 'definir',
+      description: MSG.pollCancelDescription,
+      options: [
+        {
+          type: ApplicationCommandOptionType.String,
+          name: 'vencedor',
+          description: MSG.pollCancelDescription,
+          autocomplete: true,
+        },
+      ],
+    },
   ],
   callback: async ({ interaction }) => {
     if (!interaction.isChatInputCommand()) return;
@@ -48,7 +63,11 @@ export default new Command({
       case 'cancelar':
         cancelPoll(interaction);
         break;
+      case 'definir':
+        setWinnerManually(interaction);
+        break;
     }
     return;
   },
+  autoComplete: setWinnerAutoComplete,
 });
