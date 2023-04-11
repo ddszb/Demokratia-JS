@@ -186,6 +186,7 @@ const MSG = {
   movieRatingPrompt:
     '\u200b\nUse **/nota** para dar uma nota para o filme atual.\n\n _Apenas quem iniciou a avaliação poderá encerrá-la_ ({0}).\n\u200b \n 🎬 **{1}** - indicado por <@{2}>\n\u200b  ',
   movieRatingUser: 'Indicação: <@{0}>',
+  movieRatingMovieName: 'Nome do filme',
   movieRatingAlreadyStarted: 'Já existe um filme aguardando notas ({0})',
   movieRatingNoneToClose:
     'Não há nenhuma avaliação de filme aberta.\n Utilize **/filme avaliação iniciar** antes.',
@@ -193,8 +194,6 @@ const MSG = {
     'O filme **{0}** não recebeu nota de nenhum usuário, e a avaliação foi cancelada. utilize /avaliação para iniciar uma nova avaliação.',
   movieRatingStarted:
     'Você iniciou a avaliação de filme, e apenas você poderá encerrá-la.',
-  movieRatingButtonDisabled: 'Finalizar ({0}seg)',
-  movieRatingButtonEnabled: 'Finalizar',
   movieRatingEmbedWinner: '🎬 {0}',
   movieRatingEmbedSuggestion: '👤 <@{0}> (+{1} 🍿)',
   movieRatingUserScore: '👤<@{0}>: **({1}✨)**',

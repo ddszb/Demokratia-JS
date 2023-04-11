@@ -27,7 +27,7 @@ const getMoviesSelectionMenu = (tiedMovies: PollVote[]) => {
   const actionRow: ActionRowBuilder<StringSelectMenuBuilder>[] = [];
   const selectMenu = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
     new StringSelectMenuBuilder()
-      .setCustomId('vote')
+      .setCustomId('tiebreak')
       .setPlaceholder(MSG.pollPickPrompt)
       .addOptions(
         tiedMovies.map((movieVote) => ({

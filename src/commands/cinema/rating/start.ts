@@ -4,7 +4,6 @@ import { DB } from '../../../schemas';
 import MSG from '../../../strings';
 import { ExtendedInteraction } from '../../../typings/command';
 import { movieRatePromptEmbed } from '../../../utils/embedCreator';
-import { startCloseRatingCollector } from './close';
 
 export const startRating = async (
   interaction: ExtendedInteraction & ChatInputCommandInteraction,
@@ -34,5 +33,4 @@ export const startRating = async (
     },
     movie,
   );
-  startCloseRatingCollector(interaction, movie);
 };

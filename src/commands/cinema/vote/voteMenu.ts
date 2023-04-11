@@ -19,7 +19,6 @@ const MAX_OPTIONS_OVER_LIMIT = 3;
 const MAX_OPTIONS_UNDER_LIMIT = 2;
 const MIN_OPTIONS_OVER_LIMIT = 2;
 const MIN_OPTIONS_UNDER_LIMIT = 1;
-const collectorIntervalSeconds = 600;
 
 const getMenuActionRowBuilder = (options: SelectMenuComponentOptionData[]) => {
   const maxVotes =
