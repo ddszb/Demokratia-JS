@@ -11,6 +11,17 @@ const MSG = {
   yes: 'sim',
   no: 'não',
   votes: 'votos',
+  day: 'Dia',
+  week: 'Semana',
+  month: 'Mês',
+  weekdaySunday: 'Domingo',
+  weekdayMonday: 'Segunda-Feira',
+  weekdayTuesday: 'Terça-Feira',
+  weekdayWedsneday: 'Quarta-Feira',
+  weekdayThursday: 'Quinta-Feira',
+  weekdayFriday: 'Sexta-Feira',
+  weekdaySaturday: 'Sábado',
+
   /*
    * THEME MESSAGES
    */
@@ -214,6 +225,26 @@ const MSG = {
   clubSuggestionDescription: 'Envia a indicação de outro usuário',
   clubPollUserSuggested: '<@{0}> indicou **{1}** (via <@{2}>)',
   clubScoreDescription: 'Quem deu a nota do filme',
+  /**
+   * CONFIG FREQUENCY MESSAGES
+   */
+  configChanged: 'Configuração alterada!',
+  configFrequencyCommandDescription:
+    'Permite personalizar certas configurações para o BOT.',
+  configFrequencyFrequencySetDescription: 'Configurar a frequência de filmes do Clube.',
+  configFrequencyFrequencyGetDescription:
+    'Obter a atual configuração de frequência de filmes do Clube.',
+  configFrequencyTypeDescription: 'O Tipo de frequência, por dia, semana ou mês',
+  configFrequencyIntervalDescription:
+    'O intervalo de repetição para o tipo de frequência, ex. A cada 3 dias ou 2 semanas.',
+  configFrequencyHourDescription: 'Valor de horas para o horário do evento. Padrão: 21',
+  configFrequencyMinuteDescription: 'Valor de minutos para o horário o evento. Padrão: 0',
+  configFrequencyDayDescription:
+    'Caso o tipo de frequência seja mensal ou semanal, permite configurar o dia da semana do evento.',
+  configFrequencyDisplayText:
+    'Frequência de filmes: \n\n 🕑  A cada **{0} {1}**, às **{2}**, **{3}**',
+  configFrequencyNotFound:
+    'Não existe nenhuma configuração para a frequência de filmes, configure usando "/config frequencia set"',
 };
 
 export default MSG;
