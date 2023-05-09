@@ -7,6 +7,7 @@ import {
   EmbedBuilder,
 } from 'discord.js';
 import MSG from '../strings';
+import { v4 as uuid } from 'uuid';
 
 export type PageItem = {
   label: string;
@@ -27,6 +28,10 @@ export class Paginator {
   private _showPageNumber?: boolean;
   private _totalPages: number;
   private _timedOut: boolean;
+  private _btnFirst: string;
+  private _btnPrev: string;
+  private _btnNext: string;
+  private _btnLast: string;
 
   constructor(
     title: string,
@@ -49,6 +54,10 @@ export class Paginator {
     this._showPageNumber = showPageNumber;
     this._totalPages = Math.ceil(items.length / pageSize);
     this._timedOut = false;
+    this._btnFirst = uuid();
+    this._btnPrev = uuid();
+    this._btnNext = uuid();
+    this._btnLast = uuid();
   }
 
   /**
@@ -79,28 +88,28 @@ export class Paginator {
     return new ActionRowBuilder<ButtonBuilder>()
       .addComponents(
         new ButtonBuilder()
-          .setCustomId('first')
+          .setCustomId(this._btnFirst)
           .setEmoji('⏮')
           .setStyle(ButtonStyle.Secondary)
           .setDisabled(this._page === 0),
       )
       .addComponents(
         new ButtonBuilder()
-          .setCustomId('prev')
+          .setCustomId(this._btnPrev)
           .setEmoji('⏪')
           .setStyle(ButtonStyle.Secondary)
           .setDisabled(this._page === 0),
       )
       .addComponents(
         new ButtonBuilder()
-          .setCustomId('next')
+          .setCustomId(this._btnNext)
           .setEmoji('⏩')
           .setStyle(ButtonStyle.Secondary)
           .setDisabled(this._page === this._totalPages - 1),
       )
       .addComponents(
         new ButtonBuilder()
-          .setCustomId('last')
+          .setCustomId(this._btnLast)
           .setEmoji('⏭')
           .setStyle(ButtonStyle.Secondary)
           .setDisabled(this._page === this._totalPages - 1),
@@ -146,18 +155,18 @@ export class Paginator {
     if (!btnInt) return;
     if (!btnInt.deferred) btnInt.deferUpdate();
     if (
-      btnInt.customId !== 'first' &&
-      btnInt.customId !== 'prev' &&
-      btnInt.customId !== 'next' &&
-      btnInt.customId !== 'last'
+      btnInt.customId !== this._btnFirst &&
+      btnInt.customId !== this._btnPrev &&
+      btnInt.customId !== this._btnNext &&
+      btnInt.customId !== this._btnLast
     )
       return;
     // Update the current page
-    if (btnInt.customId === 'first' && this._page > 0) this._page = 0;
-    else if (btnInt.customId === 'prev' && this._page > 0) --this._page;
-    else if (btnInt.customId === 'next' && this._page < this._totalPages - 1)
+    if (btnInt.customId === this._btnFirst && this._page > 0) this._page = 0;
+    else if (btnInt.customId === this._btnPrev && this._page > 0) --this._page;
+    else if (btnInt.customId === this._btnNext && this._page < this._totalPages - 1)
       ++this._page;
-    else if (btnInt.customId === 'last' && this._page < this._totalPages - 1)
+    else if (btnInt.customId === this._btnLast && this._page < this._totalPages - 1)
       this._page = this._totalPages - 1;
   }
 

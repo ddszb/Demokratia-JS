@@ -12,10 +12,14 @@ import { ExtendedInteraction } from '../../../typings/command';
 import { themeCreatedEmbed, themeRollEmbed } from '../../../utils/embedCreator';
 import { createPoll } from '../poll/create';
 import { createNewTheme } from './create';
+import { v4 as uuid } from 'uuid';
 
 export const rollTheme = async (
   interaction: ExtendedInteraction & ChatInputCommandInteraction,
 ) => {
+  const rerollId = uuid();
+  const setId = uuid();
+
   let confirms = new Set<string>();
   let rerolls = new Set<string>();
   const totalVotes = interaction.options.getInteger('votos')!;
@@ -23,12 +27,12 @@ export const rollTheme = async (
   const getButtonsRow = () =>
     new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setCustomId('re-roll')
+        .setCustomId(rerollId)
         .setEmoji('🔄')
         .setLabel(MSG.themeReRollCounter.parseArgs(rerolls.size, VOTES_NEEDED))
         .setStyle(ButtonStyle.Primary),
       new ButtonBuilder()
-        .setCustomId('set')
+        .setCustomId(setId)
         .setEmoji('✅')
         .setLabel(MSG.themeConfirmCounter.parseArgs(confirms.size, VOTES_NEEDED))
         .setStyle(ButtonStyle.Success),
@@ -65,10 +69,10 @@ export const rollTheme = async (
   const collector = interaction.channel.createMessageComponentCollector();
 
   collector.on('collect', async (i: ButtonInteraction) => {
-    if (i.customId === 're-roll') {
+    if (i.customId === rerollId) {
       rerolls.add(i.user.id);
       confirms.delete(i.user.id);
-    } else if (i.customId === 'set') {
+    } else if (i.customId === setId) {
       confirms.add(i.user.id);
       rerolls.delete(i.user.id);
     }
