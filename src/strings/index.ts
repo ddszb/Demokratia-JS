@@ -245,6 +245,15 @@ const MSG = {
     'Frequência de filmes: \n\n 🕑  A cada **{0} {1}**, às **{2}**, **{3}**',
   configFrequencyNotFound:
     'Não existe nenhuma configuração para a frequência de filmes, configure usando "/config frequencia set"',
+  /*
+   * HISTORY MESSAGES
+   */
+  historyMoviesDescription: 'Exibe o histórico dos filmes assistidos',
+  historyMoviesFilter: 'Filtro do que exibir: Todos os filmes ou apenas os seus',
+  historyMoviesSorter: 'Ordenação dos filmes exibidos: Por nota ou por data',
+  historyMoviesEmbedTitle: '🗓️ Filmes 🍿',
+  historyMoviesFieldFormatter: '#{0} **{1}**\n {2}\n',
+  historyMoviesUserList: 'Indicados por {0}',
 };
 
 export default MSG;
