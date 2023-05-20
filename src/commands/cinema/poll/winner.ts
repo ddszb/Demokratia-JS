@@ -1,6 +1,6 @@
 import { PollSuggestion } from '../../../schemas/poll-suggestion';
 import { DB, Movie, Poll } from '../../../schemas';
-import { nextWeekDay } from '../../../utils/dateFunctions';
+import { calculateMovieDate } from '../../../utils/dateFunctions';
 import { MovieStatus } from '../../../constants/enums/MovieStatus';
 import { ExtendedInteraction } from '../../../typings/command';
 import { ChatInputCommandInteraction, userMention } from 'discord.js';
@@ -10,6 +10,9 @@ import { newConfirmationButtonRow } from '../../../utils/componentBuilder';
 import { v4 as uuid } from 'uuid';
 import { createMovieEvent } from '../../../utils/eventCreator';
 import { sendMovieEventMessage } from '../../../utils/messageSender';
+import { DateTime } from 'luxon';
+import { getFrequencyConfig } from '../../../queries/config';
+import { getLastScheduledMovie } from '../../../queries/movie';
 
 export const setWinnerMovie = async (
   poll: Poll,
@@ -20,8 +23,13 @@ export const setWinnerMovie = async (
     { winner: true },
   );
   const movieIdx = (await DB.movie.countDocuments({ guildId: poll.guildId })) + 1;
-  const movieDate = nextWeekDay('SATURDAY').set({ hour: 21, minute: 30 });
+  const frequencySettings = await getFrequencyConfig(poll.guildId);
+  const lastMovie = await getLastScheduledMovie(poll.guildId);
 
+  const movieDate = calculateMovieDate(
+    frequencySettings,
+    DateTime.fromJSDate(lastMovie.sessionDate),
+  );
   const movie: Movie = {
     mId: movieIdx,
     uuid: uuid(),
@@ -29,11 +37,12 @@ export const setWinnerMovie = async (
     guildId: poll.guildId,
     userId: winningSuggestion.userId,
     theme: poll.theme,
-    sessionDate: movieDate.toDate(),
+    sessionDate: movieDate.toJSDate(),
     winningText: winningSuggestion.winningText,
     score: -1,
     legacy: false,
     status: MovieStatus.NOT_WATCHED,
+    extraSession: false,
   };
 
   await DB.movie.create(movie);
@@ -46,6 +55,7 @@ export const setWinnerManually = async (
   const winnerMovieName = interaction.options.getString('vencedor');
   if (!winnerMovieName) {
     await interaction.editReply(MSG.pollMovieNotFound);
+    return;
   }
   const poll = await DB.poll.findOne({
     status: { $in: [PollStatus.ACTIVE, PollStatus.VOTING, PollStatus.TIE_BREAK] },
@@ -75,7 +85,6 @@ export const setWinnerManually = async (
           guildId: interaction.guild.id,
           pollId: poll.pollId,
         });
-
         await DB.pollVote.create({
           pollId: poll.pollId,
           guildId: poll.guildId,

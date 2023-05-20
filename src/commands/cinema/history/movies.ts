@@ -5,7 +5,7 @@ import MSG from '../../../strings';
 import { ExtendedInteraction } from '../../../typings/command';
 import { roundToFixed } from '../../../utils/formatter';
 import { Paginator } from '../../../utils/paginator';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 
 export const movieHistory = async (
   interaction: ExtendedInteraction & ChatInputCommandInteraction,
@@ -21,6 +21,7 @@ export const movieHistory = async (
           userId: interaction.user.id,
         };
   const movies: Movie[] = await DB.movie.find(filter).sort({ mId: 'desc' });
+
   var items = [];
   if (sortingField && sortingField === 'score') {
     items = orderedMoviesByScore(movies, userFilter === 'all');
@@ -73,7 +74,11 @@ const orderedMoviesByScore = (movies: Movie[], showUser: boolean) => {
         extraInfo = extraInfo + `👤${userMention(movie.userId)}\n`;
       }
       if (!movie.legacy) {
-        extraInfo = extraInfo + `🗓️${moment(movie.sessionDate).format('DD/MM/YY')}\n`;
+        extraInfo =
+          extraInfo +
+          `🗓️${DateTime.fromJSDate(movie.sessionDate)
+            .setLocale('pt-br')
+            .toLocaleString()}\n`;
       }
 
       return {
@@ -90,12 +95,16 @@ const orderedMoviesBySession = (movies: Movie[], showUser: boolean) => {
   return movies
     .sort((a, b) => b.mId - a.mId)
     .map((movie, i) => {
-      var extraInfo = `⭐ ${roundToFixed(movie.score, 1)}\n`;
+      var extraInfo = `⭐  ${roundToFixed(movie.score, 1)}\n`;
       if (showUser) {
-        extraInfo = extraInfo + `👤${userMention(movie.userId)}\n`;
+        extraInfo = extraInfo + `👤 ${userMention(movie.userId)}\n`;
       }
       if (!movie.legacy) {
-        extraInfo = extraInfo + `🗓️${moment(movie.sessionDate).format('DD/MM/YY')}\n`;
+        extraInfo =
+          extraInfo +
+          `🗓️ ${DateTime.fromJSDate(movie.sessionDate)
+            .setLocale('pt-br')
+            .toLocaleString()}\n`;
       }
       return {
         label: MSG.historyMoviesFieldFormatter.parseArgs(

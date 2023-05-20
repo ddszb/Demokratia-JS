@@ -26,17 +26,18 @@ export const getHourString = (hours: number, minutes: number) => {
 };
 
 export const getDayOfWeekLabel = (dayOfWeek: WeekDay, pronoun?: boolean) => {
-  const pronouns = ['no', 'na', 'na', 'na', 'na', 'na', 'no'];
+  const idx = Number(dayOfWeek) - 1;
+  const pronouns = ['na', 'na', 'na', 'na', 'na', 'no', 'no'];
   const daysOfWeek = [
-    MSG.weekdaySunday,
     MSG.weekdayMonday,
     MSG.weekdayTuesday,
     MSG.weekdayWedsneday,
     MSG.weekdayThursday,
     MSG.weekdayFriday,
     MSG.weekdaySaturday,
+    MSG.weekdaySunday,
   ];
-  var label = pronoun ? pronouns[dayOfWeek] + ' ' : '';
-  var label = label + daysOfWeek[dayOfWeek];
+  var label = pronoun ? pronouns[idx] + ' ' : '';
+  var label = label + daysOfWeek[idx];
   return label;
 };

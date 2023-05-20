@@ -23,7 +23,6 @@ export const createMovieEvent = async (
   if (channelDoc) {
     channel = guild.channels.cache.get(channelDoc.channelId) as VoiceChannel;
   }
-  start.setHours(start.getHours() + 3);
   const end = new Date(start);
   end.setHours(end.getHours() + 2);
   const event = await guild.scheduledEvents.create({

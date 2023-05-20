@@ -10,6 +10,7 @@ import {
   getFrequencyTypeLabel,
   getHourString,
 } from '../../../utils/formatter';
+import { getFrequencyConfig } from '../../../queries/config';
 
 export interface FrequencyConfig {
   type: FrequencyType;
@@ -65,19 +66,10 @@ export const setFrequency = async (
 export const getFrequency = async (
   interaction: ExtendedInteraction & ChatInputCommandInteraction,
 ) => {
-  const config = await DB.config.findOne({
-    guildId: interaction.guild.id,
-    key: ConfigKey.MOVIE_FREQUENCY,
+  const config = await getFrequencyConfig(interaction.guildId);
+  await interaction.editReply({
+    content: formatConfigurationText(config),
   });
-
-  if (!config) {
-    await interaction.editReply({ content: MSG.configFrequencyNotFound });
-  } else {
-    const frequencyConfig = JSON.parse(config.value) as FrequencyConfig;
-    await interaction.editReply({
-      content: formatConfigurationText(frequencyConfig),
-    });
-  }
 };
 
 const formatConfigurationText = (config: FrequencyConfig) => {

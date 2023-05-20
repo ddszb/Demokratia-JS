@@ -70,6 +70,7 @@ const MSG = {
   pollCloseDescription: 'Encerra uma enquete aberta',
   pollStatusDescription: 'Verifica o status de enquete',
   pollCancelDescription: 'Cancela uma enquete',
+  pollManualSetDescription: 'Define o vencedor de uma enquete manualmente',
   pollMovieNotFound: 'Filme não encontrado',
   pollUserOpenedPoll:
     'Você abriu a enquete para o tema **{0}**. Aguarde todos votarem antes de fechar com _/enquete fechar_',

@@ -68,7 +68,6 @@ export const closePoll = async (
     pollId: poll.pollId,
     guildId: interaction.guild.id,
   });
-  // let movieVotes = suggestions.map(
 
   const pollVotes = await DB.pollVote.find({
     pollId: poll.pollId,
@@ -88,6 +87,7 @@ export const closePoll = async (
     .setTitle(MSG.pollEndedTitle)
     .setFields(embedFields)
     .setColor(Colors.Gold);
+  // If there's a tie, update the suggestions to a tiebreak
   if (winners.length > 1) {
     await DB.pollVote.updateMany(
       {
@@ -107,6 +107,7 @@ export const closePoll = async (
       { pollId: poll.pollId, guildId: interaction.guild.id },
       { status: PollStatus.TIE_BREAK, messageId: message.id },
     );
+    // If only one winner, saves the winner, creates the event and send the message to the channel
   } else {
     await DB.poll.updateOne(
       { pollId: poll.pollId, guildId: interaction.guild.id },

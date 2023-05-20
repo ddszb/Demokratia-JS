@@ -1,25 +1,17 @@
-import {
-  ColorResolvable,
-  EmbedField,
-  GuildScheduledEvent,
-  EmbedBuilder,
-  Colors,
-} from 'discord.js';
-import moment from 'moment';
-import 'moment/locale/pt-br';
+import { GuildScheduledEvent, EmbedBuilder, Colors } from 'discord.js';
 import { Movie, MovieScore, Theme } from '../schemas';
 import MSG from '../strings';
 import { roundToFixed } from './formatter';
+import { DateTime } from 'luxon';
 
 // Response for movie event created
 export const movieDateEmbed = async (
   movie: Movie,
   event: GuildScheduledEvent,
 ): Promise<EmbedBuilder> => {
-  const start = moment(movie.sessionDate);
-
-  const dayFormatted = start.format(MSG.sessionDateFormat);
-  const timeFormatted = `${start.format('HH:mm')}`;
+  const start = DateTime.fromJSDate(movie.sessionDate);
+  const dayFormatted = start.setLocale('pt-br').toLocaleString(DateTime.DATE_HUGE);
+  const timeFormatted = `${start.toFormat('HH:mm')}`;
   const movieName = MSG.sessionEmbedDescription.parseArgs(movie.name);
   const featMessage = movie.winningText
     ? MSG.sessionEmbedFeatDescription.parseArgs(movie.winningText)

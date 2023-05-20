@@ -36,12 +36,12 @@ export default new Command({
     {
       type: ApplicationCommandOptionType.Subcommand,
       name: 'definir',
-      description: MSG.pollCancelDescription,
+      description: MSG.pollManualSetDescription,
       options: [
         {
           type: ApplicationCommandOptionType.String,
           name: 'vencedor',
-          description: MSG.pollCancelDescription,
+          description: MSG.movieRatingMovieName,
           autocomplete: true,
         },
       ],

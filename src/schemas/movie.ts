@@ -15,6 +15,7 @@ export interface Movie {
   status: number;
   rateMessageId?: string;
   winningText?: string;
+  extraSession?: boolean;
 }
 const schema = new Schema<Movie>(
   {
@@ -30,6 +31,7 @@ const schema = new Schema<Movie>(
     status: reqNumber,
     rateMessageId: optString,
     winningText: optString,
+    extraSession: reqBoolean,
   },
   {
     timestamps: true,
