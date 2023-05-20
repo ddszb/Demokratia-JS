@@ -20,38 +20,6 @@ export enum DayOfTheWeek {
   'SUNDAY' = 7,
 }
 export type WeekdayNumbers = 1 | 2 | 3 | 4 | 5 | 6 | 7;
-/**
- * Gets the date of the next one of WeekDay
- * @param day 'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY' or 'SATURDAY'
- * @param skipOneWeek If true, adds one week to the date returned
- * @returns the date (moment) of the next corresponding weekday
- */
-export const nextWeekDay = (day: WeekDay, skipOneWeek?: boolean) => {
-  const dayOfTheWeek = _getDayOfTheWeek(day);
-  const today = DateTime.now().day;
-  let nextDay;
-  const skip = skipOneWeek ? 1 : 0;
-  if (today <= dayOfTheWeek) {
-    // DateTime.now().plus({week: skip}).set({weekday: 6}) // 6 = sabado
-    nextDay = DateTime.now().plus({ week: skip }).set({ weekday: 6 }); // 6 = sabado
-  } else {
-    nextDay = DateTime.now()
-      .plus({ week: skip + 1 })
-      .set({ weekday: 6 }); // 6 = sabado
-    // nextDay = moment() //todo
-    //   .add(skip + 1, 'weeks')
-    //   .day(dayOfTheWeek);
-  }
-  return nextDay;
-};
-
-const _getDayOfTheWeek = (weekday: WeekDay): DayOfTheWeek => {
-  let day = DayOfTheWeek.SATURDAY;
-  if (weekday in DayOfTheWeek) {
-    day = DayOfTheWeek[weekday];
-  }
-  return day;
-};
 
 export const calculateMovieDate = (
   configuration: FrequencyConfig,
