@@ -36,10 +36,19 @@ export class ImageMaker {
     this._context.drawImage(background, 0, 0, this._width, this._height);
   };
 
-  addImage = async (url: string, x: number, y: number, w: number, h: number) => {
-    const { body } = await request(url);
+  addImageUrl = async (source: string, x: number, y: number, w: number, h: number) => {
+    const { body } = await request(source);
     const image = await Canvas.loadImage(await body.arrayBuffer());
     this._context.drawImage(image, x, y, w, h);
+  };
+  addImage = async (source: string, x: number, y: number, w?: number, h?: number) => {
+    const path = IMG_PATH + source;
+    const image = await Canvas.loadImage(path);
+    if (w && h) {
+      this._context.drawImage(image, x, y, w, h);
+    } else {
+      this._context.drawImage(image, x, y);
+    }
   };
 
   fill = (x: number, y: number, w: number, h: number, color: string) => {
