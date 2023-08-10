@@ -93,6 +93,8 @@ export const setWinnerManually = async (
           movie: winnerMovieName,
           votingIndex: 0,
         });
+        poll.status = PollStatus.FINISHED;
+        await DB.poll.updateOne({ pollId: poll.pollId }, poll);
 
         const winningSuggestion = await DB.pollSuggestion.findOne({
           movie: winnerMovieName,
