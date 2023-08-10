@@ -1,3 +1,4 @@
+import { getMovieScoreImage } from './../../../utils/imageCreator';
 import { ChatInputCommandInteraction, roleMention } from 'discord.js';
 import { MovieStatus } from '../../../constants/enums/MovieStatus';
 import { DB } from '../../../schemas';
@@ -64,11 +65,12 @@ export const closeRating = async (
     guildId: interaction.guild.id,
   });
 
-  const embed = movieRatingEmbed(movie, votes, Math.round(expEarned), movedRanks);
-
+  const image = await getMovieScoreImage(movie);
+  let messageText = membersRole ? roleMention(membersRole.roleId) : '';
+  messageText = messageText + ` 🍿 **${movie.name}** 🍿`;
   await interaction.deleteReply();
   await interaction.channel.send({
     content: membersRole ? roleMention(membersRole.roleId) : '',
-    embeds: [embed],
+    files: [image],
   });
 };

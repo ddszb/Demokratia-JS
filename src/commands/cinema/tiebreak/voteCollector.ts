@@ -39,7 +39,6 @@ export const voteCollector = async (
   message = tieMessage;
   const movieNames = tiedMovies.map((vote) => vote.movie);
   movieNames.forEach((movie) => (movieVotes[movie] = []));
-  console.log(movieVotes);
 
   const collector = interaction.channel.createMessageComponentCollector();
 
@@ -59,7 +58,6 @@ export const voteCollector = async (
           ephemeral: true,
           content: 'Voto enviado: ' + movieName,
         });
-        // console.log('usersvoted', usersVoted);
         interaction.editReply({
           content: MSG.pollTiedFinishPrompt.parseArgs(` ${usersVoted.size} votos`),
         });

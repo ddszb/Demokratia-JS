@@ -73,7 +73,6 @@ export const getFrequency = async (
 };
 
 const formatConfigurationText = (config: FrequencyConfig) => {
-  console.log(JSON.stringify(config));
   const plural = config.interval > 1;
   return MSG.configFrequencyDisplayText.parseArgs(
     config.interval,

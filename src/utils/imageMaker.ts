@@ -36,10 +36,25 @@ export class ImageMaker {
     this._context.drawImage(background, 0, 0, this._width, this._height);
   };
 
-  addImageUrl = async (source: string, x: number, y: number, w: number, h: number) => {
+  addImageUrl = async (
+    source: string,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    circle?: boolean,
+  ) => {
     const { body } = await request(source);
     const image = await Canvas.loadImage(await body.arrayBuffer());
     this._context.drawImage(image, x, y, w, h);
+    // if (!circle) return;
+
+    // this._context.beginPath();
+    // this._context.arc(x + w / 2, y + h / 2, w / 2, 0, Math.PI * 2, true);
+    // // this._context.fill();
+    // this._context.clip('nonzero');
+    // this._context.closePath();
+    // this._context.clearRect();
   };
   addImage = async (source: string, x: number, y: number, w?: number, h?: number) => {
     const path = IMG_PATH + source;
