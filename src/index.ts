@@ -9,3 +9,7 @@ export const client = new ExtendedClient();
 loadFonts();
 
 client.start();
+
+process.on('uncaughtException', (e) => {
+  console.log('Erro inexperado: ', e);
+});

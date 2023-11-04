@@ -8,6 +8,13 @@ export const getMoviesByStatus = async (guildId: string, ...status: MovieStatus[
   });
 };
 
+
+export const getAllMovies = async (guildId: string ) => {
+  return await DB.movie.find({
+    guildId,
+  });
+};
+
 /**
  * Return the last movie watched that was not from an extra session
  * @param guildId The guild id

@@ -90,7 +90,7 @@ export const getMovieScoreImage = async (movie: Movie): Promise<AttachmentBuilde
 
   let goodScore = false;
   if (userScores.length > 0) {
-    goodScore = highScoreAmount / userScores.length > 0.7;
+    goodScore = highScoreAmount / userScores.length > 0.5;
   } else {
     goodScore = movie.score > MOVIE_GOOD_SCORE_THRESHOLD;
   }
