@@ -1,7 +1,7 @@
 # Demokratia
 ## _Discord bot_
 
-
+Not currently maintained
 Discord bot for rating, choosing and listing movie sessions with friends.
 Written in Typescript  with [discord.js](https://discord.js.org/#/)
 
